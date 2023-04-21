@@ -28,7 +28,7 @@
     </nav>
 </header>
 <div class="container">
-    <div class="row">
+    <div class="row" style="margin-top: 30px">
         <div class="col-3 container">
             <ul class="list-group list-group-flush" style="width: 120px">
                 <li class="list-group-item text-center">
@@ -74,6 +74,7 @@
             </ul>
         </div>
         <main role="main" class="col container">
+            {% block content %}{% endblock %}
         </main>
     </div>
 </div>
