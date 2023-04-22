@@ -13,7 +13,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     surname = sqlalchemy.Column(sqlalchemy.String)
     name = sqlalchemy.Column(sqlalchemy.String)
     email = sqlalchemy.Column(sqlalchemy.String, unique=True)
-    photo = sqlalchemy.Column(sqlalchemy.String, default="/static/img/user/stock_img.png")
+    photo = sqlalchemy.Column(sqlalchemy.String, default="/static/img/user_stock_img.png")
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     reviews = orm.relationship("Review", back_populates="user")
 

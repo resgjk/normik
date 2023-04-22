@@ -14,11 +14,17 @@
 <header>
     <nav class="navbar bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand logo" href="#">ⓝⓞⓡⓜⓘⓚ</a>
+            <a class="navbar-brand logo" href="/">ⓝⓞⓡⓜⓘⓚ</a>
             <form class="d-flex" role="search">
-                <a href="/login">
-                    <img src="/static/img/user_stock_img.png" style="width: 37px">
+                {% if current_user.is_authenticated %}
+                <a href="/user/{{current_user.id}}">
+                    <img src="{{current_user.photo}}" style="width: 37px; border-radius: 50%">
                 </a>
+                {% else %}
+                <a href="/login">
+                    <img src="/static/img/user_stock_img.png" style="width: 37px; border-radius: 50%">
+                </a>
+                {% endif %}
                 <input name="search" class="form-control me-2" type="search" placeholder="Поиск"
                        style="margin-left: 35px"
                        aria-label="Search">
@@ -32,42 +38,42 @@
         <div class="col-3 container">
             <ul class="list-group list-group-flush" style="width: 120px">
                 <li class="list-group-item text-center">
-                    <a href="№" style="color: #198754; opacity: .9">
+                    <a href="/game" style="color: #198754; opacity: .9">
                         Игры
                     </a>
                 </li>
                 <li class="list-group-item text-center">
-                    <a href="№" style="color: #198754; opacity: .9">
+                    <a href="/soft" style="color: #198754; opacity: .9">
                         Софт
                     </a>
                 </li>
                 <li class="list-group-item text-center">
-                    <a href="№" style="color: #198754; opacity: .9">
+                    <a href="/music" style="color: #198754; opacity: .9">
                         Музыка
                     </a>
                 </li>
                 <li class="list-group-item text-center">
-                    <a href="№" style="color: #198754; opacity: .9">
+                    <a href="/movies" style="color: #198754; opacity: .9">
                         Фильмы
                     </a>
                 </li>
                 <li class="list-group-item text-center">
-                    <a href="№" style="color: #198754; opacity: .9">
+                    <a href="/series" style="color: #198754; opacity: .9">
                         Сериалы
                     </a>
                 </li>
                 <li class="list-group-item text-center">
-                    <a href="№" style="color: #198754; opacity: .9">
+                    <a href="/literature" style="color: #198754; opacity: .9">
                         Литература
                     </a>
                 </li>
                 <li class="list-group-item text-center">
-                    <a href="№" style="color: #198754; opacity: .9">
+                    <a href="/technique" style="color: #198754; opacity: .9">
                         Техника
                     </a>
                 </li>
                 <li class="list-group-item text-center">
-                    <a href="№" style="color: #198754; opacity: .9">
+                    <a href="/other" style="color: #198754; opacity: .9">
                         Разное
                     </a>
                 </li>

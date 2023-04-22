@@ -10,12 +10,38 @@ parser.add_argument("email")
 parser.add_argument("photo")
 parser.add_argument("hashed_password")
 
+login_parser = reqparse.RequestParser()
+login_parser.add_argument("email")
+login_parser.add_argument("password")
+
 
 def abort_if_users_not_found(users_id):
     session = db_session.create_session()
     users = session.query(User).get(users_id)
     if not users:
         abort(404, message=f"Users {users_id} not found")
+
+
+class UserGetWithEmail(Resource):
+    def get(self, email):
+        session = db_session.create_session()
+        user = session.query(User).filter(User.email == email).first()
+        if user:
+            return jsonify({"message": "user with this email exists"})
+        return jsonify({"message": "user with this email can be created"})
+
+
+class UserLoginResource(Resource):
+    def post(self):
+        args = login_parser.parse_args()
+        session = db_session.create_session()
+        user = session.query(User).filter(User.email == args["email"]).first()
+        if user and user.check_password(args["password"]):
+            return jsonify(user.to_dict(
+                only=(
+                    "id", "surname", "name", "email",
+                    "photo", "hashed_password")))
+        return jsonify({"message": "bad request"})
 
 
 class UserResource(Resource):

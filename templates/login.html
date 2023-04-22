@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>{{title}}</title>
+</head>
+<body>
+<header>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand logo" href="/">ⓝⓞⓡⓜⓘⓚ</a>
+        </div>
+    </nav>
+</header>
+<h3 class="text-center" style="color: #198754; opacity: .9">Авторизация</h3>
+<div class="container login_and_register_form">
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(class="form-control", type="email") }}<br>
+            {% for error in form.email.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(class="form-control", type="password") }}<br>
+            {% for error in form.password.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <div class="text-center">
+            <p>{{ form.submit(type="submit", class="btn btn-outline-success") }}</p>
+            <div>У вас нет аккаунта?</div>
+            <a href="/register" style="color: #198754; opacity: .9; margin-left: 5px">Зарегистрируйтесь!</a>
+        </div>
+        <div class="text-center" style="color: red; margin-top: 20px">{{ message }}</div>
+    </form>
+</div>
+</body>
+</html>

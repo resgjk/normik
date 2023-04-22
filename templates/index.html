@@ -2,43 +2,52 @@
 
 {% block content %}
 <h4>Недавние отзывы</h4>
+{%for rev in lst%}
 <div class="otziv_frame">
-    <div class="obj_name">
-        <a href="#" style="color: #444">Cyberpunk 2077</a>
-    </div>
-    <div class="row">
+        {% set user = sess.query(user_model).get(rev['user_id']) %}
+        <div class="obj_name">
+            <a href="#" style="color: #444">{{rev["product_name"]}}</a>
+        </div>
         <div class="row">
-            <img src="/static/img/cyberpunk.jpg" class="obj_photo">
+            <div class="row">
+                <img src="{{rev['photo']}}" class="obj_photo">
+            </div>
+            <ul class="list-group list-group-flush ul_data">
+                <li class="list-group-item">
+                    <div class="row">
+                        <a href="#">
+                            <img src="{{user.photo}}" class="user_photo">
+                        </a>
+                        <div class="user_name">{{user.name}} {{user.surname}}</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="date_of_post">
+                        {{rev["date"].split()[0]}}
+                    </div>
+                </li>
+            </ul>
         </div>
-        <ul class="list-group list-group-flush ul_data">
-            <li class="list-group-item">
-                <div class="row">
-                    <a href="#">
-                        <img src="/static/img/user_stock_img.png" class="user_photo">
-                    </a>
-                    <div class="user_name">Ivan Ivanov</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="date_of_post">
-                    22.11.2222
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div>
-        <h6>Достоинства</h6>
-        <div class="description_text">asdassdasd ads dasdasda sd asda sdsad asd sd adsda dasd sad sda</div>
-    </div>
-    <div>
-        <h6>Недостатки</h6>
-        <div class="description_text">wad s dawdasdaw adw dweferagfeasrgdsa wa wefA E AWE FEWF AWF AEWF ADSDAWD ads
-            awd
+        <div>
+            <h6>Категория</h6>
+            <div class="description_text">{{rev["category"]}}</div>
         </div>
-    </div>
-    <div>
-        <h6>Комментарий</h6>
-        <div class="description_text">wфвцыфыв gfeasrgdsa wa wefA E AWE FEWF AWF AEWF ADSDAWD ads awd</div>
-    </div>
+        <div>
+            <h6>Оценка</h6>
+            <div class="description_text">{{rev["rating"]}}</div>
+        </div>
+        <div>
+            <h6>Достоинства</h6>
+            <div class="description_text">{{rev["plus"]}}</div>
+        </div>
+        <div>
+            <h6>Недостатки</h6>
+            <div class="description_text">{{rev["minus"]}}</div>
+        </div>
+        <div>
+            <h6>Комментарий</h6>
+            <div class="description_text">{{rev["description"]}}</div>
+        </div>
 </div>
+{%endfor%}
 {% endblock %}

@@ -13,6 +13,7 @@ class Review(SqlAlchemyBase, SerializerMixin):
     photo = sqlalchemy.Column(sqlalchemy.String)
     date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now())
     category = sqlalchemy.Column(sqlalchemy.String)
+    rating = sqlalchemy.Column(sqlalchemy.String)
     plus = sqlalchemy.Column(sqlalchemy.String)
     minus = sqlalchemy.Column(sqlalchemy.String)
     description = sqlalchemy.Column(sqlalchemy.String)

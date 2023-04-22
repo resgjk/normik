@@ -67,7 +67,7 @@ class ProductsListResource(Resource):
             direct = "technique"
         elif product.category == "Софт":
             direct = "soft"
-        photo_dir = f"photos/{direct}/{product.name}.jpeg"
+        photo_dir = f"/static/photos/reviews/{direct}/{product.name}.jpeg"
         Image.open(BytesIO(photo_bt)).save(photo_dir)
         product.photo = photo_dir
         session.add(product)
