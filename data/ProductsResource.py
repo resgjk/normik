@@ -19,6 +19,16 @@ def abort_if_product_not_found(product_id):
         abort(404, message=f"Product {product_id} not found")
 
 
+class ProductWithNameAndCategory(Resource):
+    def get(self, name, category):
+        session = db_session.create_session()
+        product = session.query(Product).filter(Product.name == name, Product.category == category).first()
+        if product:
+            return jsonify(product.to_dict(
+                only=("id", "name", "category", "photo")))
+        return jsonify({"message": "product with this name and this category not found"})
+
+
 class ProductResource(Resource):
     def get(self, product_id):
         abort_if_product_not_found(product_id)
@@ -48,28 +58,9 @@ class ProductsListResource(Resource):
         session = db_session.create_session()
         product = Product(
             name=args["name"],
-            category=args["category"]
+            category=args["category"],
+            photo=args["photo"]
         )
-        photo_bt = args["photo"]
-        if product.category == "Игры":
-            direct = "game"
-        elif product.category == "Литература":
-            direct = "literature"
-        elif product.category == "Фильмы":
-            direct = "movies"
-        elif product.category == "Сериалы":
-            direct = "series"
-        elif product.category == "Музыка":
-            direct = "music"
-        elif product.category == "Разное":
-            direct = "other"
-        elif product.category == "Техника":
-            direct = "technique"
-        elif product.category == "Софт":
-            direct = "soft"
-        photo_dir = f"/static/photos/reviews/{direct}/{product.name}.jpeg"
-        Image.open(BytesIO(photo_bt)).save(photo_dir)
-        product.photo = photo_dir
         session.add(product)
         session.commit()
         return jsonify({'success': 'OK'})

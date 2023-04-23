@@ -20,6 +20,33 @@ def abort_if_review_not_found(review_id):
         abort(404, message=f"Review {review_id} not found")
 
 
+class ReviewsWithUserId(Resource):
+    def get(self, id):
+        session = db_session.create_session()
+        reviews = session.query(Review).filter(Review.user_id == id)
+        return jsonify([item.to_dict(
+            only=("id", "product_name", "photo", "rating", "date", "category",
+                  "plus", "minus", "description", "user_id")) for item in reviews])
+
+
+class ReviewsWithProductName(Resource):
+    def get(self, product_name):
+        session = db_session.create_session()
+        reviews = session.query(Review).filter(Review.product_name == product_name)
+        return jsonify([item.to_dict(
+            only=("id", "product_name", "photo", "rating", "date", "category",
+                  "plus", "minus", "description", "user_id")) for item in reviews])
+
+
+class ReviewsWithCategory(Resource):
+    def get(self, category):
+        session = db_session.create_session()
+        reviews = session.query(Review).filter(Review.category == category)
+        return jsonify([item.to_dict(
+            only=("id", "product_name", "photo", "rating", "date", "category",
+                  "plus", "minus", "description", "user_id")) for item in reviews])
+
+
 class ReviewResource(Resource):
     def get(self, review_id):
         abort_if_review_not_found(review_id)
@@ -54,15 +81,15 @@ class ReviewsListResource(Resource):
         if not product:
             return jsonify({"succes": "product not found"})
         review = Review(
-           product_name=args["product_name"],
-           photo=product.photo,
-           plus=args["plus"],
-           rating=args["rating"],
-           minus=args["minus"],
-           description=args["description"],
-           user_id=args["user_id"],
-           product_id=product.id,
-           category=product.category
+            product_name=args["product_name"],
+            photo=product.photo,
+            plus=args["plus"],
+            rating=args["rating"],
+            minus=args["minus"],
+            description=args["description"],
+            user_id=args["user_id"],
+            product_id=product.id,
+            category=product.category
         )
         session.add(review)
         session.commit()

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4>{{category}}</h4>
+{%if lst%}
+    {%for rev in lst%}
+    <div class="otziv_frame">
+            {% set user = sess.query(user_model).get(rev['user_id']) %}
+            <div class="obj_name">
+                <a href="/product/{{rev['product_name']}}" style="color: #444">{{rev["product_name"]}}</a>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <img src="{{rev['photo']}}" class="obj_photo">
+                </div>
+                <ul class="list-group list-group-flush ul_data">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <a href="/user/{{user.id}}">
+                                <img src="\{{user.photo}}" class="user_photo">
+                            </a>
+                            <div class="user_name">{{user.name}} {{user.surname}}</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="date_of_post">
+                            {{rev["date"].split()[0]}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h6>Категория</h6>
+                <div class="description_text">{{rev["category"]}}</div>
+            </div>
+            <div>
+                <h6>Оценка</h6>
+                <div class="description_text">{{rev["rating"]}}</div>
+            </div>
+            <div>
+                <h6>Достоинства</h6>
+                <div class="description_text">{{rev["plus"]}}</div>
+            </div>
+            <div>
+                <h6>Недостатки</h6>
+                <div class="description_text">{{rev["minus"]}}</div>
+            </div>
+            <div>
+                <h6>Комментарий</h6>
+                <div class="description_text">{{rev["description"]}}</div>
+            </div>
+    </div>
+    {%endfor%}
+{%else%}
+    <div class="not_message">Увы, но в данной категории пока нет отзывов(</div>
+{%endif%}
+{% endblock %}

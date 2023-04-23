@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4>Новый отзыв</h4>
+<form action="" method="post" style="width: 600px;">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.product_name.label }}<br>
+        {{ form.product_name(class="form-control") }}<br>
+        {% for error in form.product_name.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.category.label }}<br>
+        {{ form.category(class="form-control") }}<br>
+        {% for error in form.category.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.rating.label }}<br>
+        {{ form.rating(class="form-control") }}<br>
+        {% for error in form.rating.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.plus.label }}<br>
+        {{ form.plus(class="form-control") }}<br>
+        {% for error in form.plus.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.minus.label }}<br>
+        {{ form.minus(class="form-control") }}<br>
+        {% for error in form.minus.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.description.label }}<br>
+        {{ form.description(class="form-control") }}<br>
+        {% for error in form.description.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>{{ form.submit(type="submit", class="btn btn-outline-success") }}</p>
+    <div class="row" style="margin-left: 30px; margin-bottom: 50px;">
+        <div>{{ message }}</div>
+        {%if message == "Продукта с таким названием и категорией нет."%}
+            <a href="/add_new_product" style="color: #198754; opacity: .9; margin-left: 5px">
+                Добавить новый продукт!
+            </a>
+        {%endif%}
+    </div>
+</form>
+{% endblock %}
