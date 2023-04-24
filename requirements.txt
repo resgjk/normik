@@ -4,3 +4,4 @@ SQLAlchemy
 SQLAlchemy-serializer
 Flask-WTF
 Flask-Login
+requests
