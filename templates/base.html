@@ -8,6 +8,9 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Carlito&display=swap" rel="stylesheet">
     <title>{{title}}</title>
 </head>
 <body>
@@ -18,7 +21,7 @@
             <form class="d-flex" method="post">
                 {% if current_user.is_authenticated %}
                 <a href="/user/{{current_user.id}}">
-                    <img src="\{{current_user.photo}}" style="width: 37px; border-radius: 50%">
+                    <img src="{{current_user.photo}}" style="width: 37px; border-radius: 50%">
                 </a>
                 <a href="/add_new_review" class="btn btn-success" style="margin-left: 10px">
                     Добавить

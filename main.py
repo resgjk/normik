@@ -4,7 +4,6 @@ import requests
 from flask import Flask, make_response, jsonify, redirect, render_template, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_restful import Api
-from werkzeug.utils import secure_filename
 
 from data import db_session, UsersResource, ReviewsResource, ProductsResource
 from data.users import User
@@ -32,16 +31,19 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+@app.route("/logout")
+def logout_func():
+    logout_user()
+    return redirect("/")
+
+
 @app.route("/add_new_product", methods=['GET', 'POST'])
 def add_new_product():
     form = AddNewProductForm()
     if form.validate_on_submit():
-        print(form.name.data)
-        print(form.category.data)
         prodcut = requests.get(
             f"http://127.0.0.1:5000/api/product/{form.name.data}/{form.category.data}").json()
         if "message" in prodcut:
-            f = form.photo.data
             if form.category.data == "Игры":
                 direct = "game"
             elif form.category.data == "Литература":
@@ -58,19 +60,19 @@ def add_new_product():
                 direct = "technique"
             elif form.category.data == "Софт":
                 direct = "soft"
-            way = os.path.join("static", "photos", "reviews", direct, f"{form.name.data}.jpeg")
+            f = form.photo.data
+            way = "/".join(["static", "photos", "reviews", direct, f"{form.name.data}.jpeg"])
             f.save(way)
             requests.post("http://127.0.0.1:5000/api/products", json={
                 "name": form.name.data,
                 "category": form.category.data,
-                "photo": way
+                "photo": f"/{way}"
             })
             return redirect("/add_new_review")
         return render_template('add_new_product.html', title='Добавление продукта', form=form,
                                message="Продукт с таким названием и категорией уже существует.")
-    #else:
-    #    if request.method == "POST":
-    #        return redirect(f"/product/{request.form['search']}")
+    if request.method == "POST":
+        return redirect(f"/product/{request.form['search']}")
     return render_template('add_new_product.html', title='Добавление продукта', form=form)
 
 
@@ -171,13 +173,13 @@ def reqister():
                                    form=form,
                                    message="Такой пользователь уже есть")
         f = form.photo.data
-        way = os.path.join("static", "photos", "users", f"{form.email.data}.jpeg")
+        way = "/".join(["static", "photos", "users", f"{form.email.data}.jpeg"])
         f.save(way)
         requests.post("http://127.0.0.1:5000/api/users", json={
             "surname": form.surname.data,
             "name": form.name.data,
             "email": form.email.data,
-            "photo": way,
+            "photo": f"/{way}",
             "hashed_password": form.password.data
         })
         return redirect('/login')
